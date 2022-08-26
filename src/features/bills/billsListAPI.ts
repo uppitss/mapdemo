@@ -19,9 +19,17 @@ class mockBillsListAPI implements IBillsListAPI {
     loadEntryPoints = () => {
         return new Promise<EntryPoint[]>((resolve, reject) => {
             let arr: EntryPoint[] = []
-            for (let i = 0; i < 50; i++) {
-                arr.push(new EntryPoint(i,"EntryPoint_" + i));
-            }
+            arr.push(new EntryPoint(0,"Кремль", 55.752204, 37.620499));
+            arr.push(new EntryPoint(1,"Метро цветной бульвар", 55.772169, 37.621437));
+            arr.push(new EntryPoint(2,"Метро таганская", 55.741887, 37.652860));
+            arr.push(new EntryPoint(3,"Метро баррикадная", 55.760932, 37.582042));
+            arr.push(new EntryPoint(4,"Метро Студенческая", 55.738977, 37.548509));
+            arr.push(new EntryPoint(5,"Метро Смоленская", 55.748633, 37.581573));
+            arr.push(new EntryPoint(6,"Метро Шелепиха", 55.756171, 37.525997));
+            arr.push(new EntryPoint(7,"Метро выставочная", 55.750749, 37.542412));
+            arr.push(new EntryPoint(8,"Метро Полежаевская", 55.777456, 37.519666));
+            arr.push(new EntryPoint(9,"Метро Динамо", 55.789216, 37.558827));
+
             resolve(arr);
         })
     }
