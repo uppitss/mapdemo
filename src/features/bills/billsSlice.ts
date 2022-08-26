@@ -2,21 +2,23 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState, AppThunk} from '../../app/store';
 import {Bill} from "../../model/data/Bill";
 import {fetchCount} from "../counter/counterAPI";
-import {incrementAsync} from "../counter/counterSlice";
+import {counterSlice, incrementAsync} from "../counter/counterSlice";
 import {billsListAPIFactory} from "./billsListAPI";
 import {BillsList} from "./BillsList";
 import {EntryPoint} from "../../model/data/EntryPoint";
 
-
+var cloneDeep = require('lodash.clonedeep');
 export interface IBillsState {
     isLoading: boolean;
     bills: Bill[];
+    selectedBill:Bill|undefined;
     entryPoints: EntryPoint[];
 }
 
 const initialState: IBillsState = {
     isLoading: false,
     bills:[],
+    selectedBill:undefined,
     entryPoints: []
 };
 
@@ -25,9 +27,51 @@ export const billsSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        // changeMessage: (state,action: PayloadAction<string>) =>{
-        //     state.helloMessage = action.payload;
-        // }
+         selectBill: (state,action: PayloadAction<Bill>) =>{
+             state.selectedBill = action.payload//cloneDeep(action.payload);
+         },
+        updateBillFrom: (state,action:PayloadAction<{bill:Bill,entryPointId:number}>) =>{
+             const billIndex = state.bills.findIndex(f=>f===action.payload.bill);
+             if (billIndex >=0){
+                 const entryPointIndex = state.entryPoints.findIndex(f=>f.id === action.payload.entryPointId)
+                 if (entryPointIndex >=0){
+                     state.bills = state.bills.map((i,index)=>{
+                         if (index === billIndex){
+                             i.from = state.entryPoints[entryPointIndex]
+                         }
+                         if (i === state.selectedBill){
+                             const cloned =cloneDeep(i);
+                             state.selectedBill = cloned;
+                             return cloned;
+                         }else{
+                             return i;
+                         }
+
+                     })
+                 }
+             }
+        },
+        updateBillTo: (state,action:PayloadAction<{bill:Bill,entryPointId:number}>) =>{
+            const billIndex = state.bills.findIndex(f=>f===action.payload.bill);
+            if (billIndex >=0){
+                const entryPointIndex = state.entryPoints.findIndex(f=>f.id === action.payload.entryPointId)
+                if (entryPointIndex >=0){
+                    state.bills = state.bills.map((i,index)=>{
+                        if (index === billIndex){
+                            i.to = state.entryPoints[entryPointIndex]
+                        }
+                        if (i === state.selectedBill){
+                            const cloned =cloneDeep(i);
+                            state.selectedBill = cloned;
+                            return cloned;
+                        }else{
+                            return i;
+                        }
+
+                    })
+                }
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -70,9 +114,11 @@ export const loadBillsListAsync = createAsyncThunk(
     }
 );
 
+export const { selectBill,updateBillTo,updateBillFrom } = billsSlice.actions;
 
 export const selectIsLoading = (state: RootState) => state.bills.isLoading;
 export const selectEntryPoints = (state: RootState) => state.bills.entryPoints;
 export const selectBills = (state: RootState) => state.bills.bills;
+export const selectSelectedBill = (state:RootState) => state.bills.selectedBill;
 
 export default billsSlice.reducer;

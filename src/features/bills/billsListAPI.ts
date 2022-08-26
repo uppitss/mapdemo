@@ -20,7 +20,7 @@ class mockBillsListAPI implements IBillsListAPI {
         return new Promise<EntryPoint[]>((resolve, reject) => {
             let arr: EntryPoint[] = []
             for (let i = 0; i < 50; i++) {
-                arr.push(new EntryPoint("EntryPoint_" + i));
+                arr.push(new EntryPoint(i,"EntryPoint_" + i));
             }
             resolve(arr);
         })
@@ -50,7 +50,7 @@ class mockBillsListAPI implements IBillsListAPI {
 
             for (let i = 0; i < rows; i++) {
                 const points = getEntryPoints();
-                arr.push(new Bill("Mock_" + i, points[0], points[1]));
+                arr.push(new Bill("Mock " + i, points[0], points[1]));
             }
             resolve(arr)
         })
