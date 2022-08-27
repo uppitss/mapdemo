@@ -1,6 +1,5 @@
 import {useAppSelector} from "../../app/hooks";
 import {selectSelectedBill} from "../bills/billsSlice";
-import {store} from "../../app/store";
 import L from "leaflet";
 import {useEffect, useRef, useState} from "react";
 
@@ -14,7 +13,7 @@ export const RouteOnMap = () => {
     const [polygon, setPolygon] = useState<L.Polygon | undefined>(undefined)
     useEffect(() => {
         if (mapRef.current) {
-            var mapObj = L.map(mapRef.current);//.setView([51.505, -0.09], 13);
+            var mapObj = L.map(mapRef.current);
             const layer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap'
@@ -42,7 +41,7 @@ export const RouteOnMap = () => {
             const markerToObj = L.marker([selectedBill.to.latitude, selectedBill.to.longtitude]).addTo(map);
             setMarkerTo(markerToObj)
 
-            var polygonObj = L.polygon([
+            const polygonObj = L.polygon([
                 [selectedBill.from.latitude, selectedBill.from.longtitude],
                 [selectedBill.to.latitude, selectedBill.to.longtitude],
             ]).addTo(map);
@@ -65,7 +64,7 @@ export const RouteOnMap = () => {
                 const markerToObj = L.marker([selectedBill.to.latitude, selectedBill.to.longtitude]).addTo(mapObj);
                 setMarkerTo(markerToObj)
 
-                var polygonObj = L.polygon([
+                const polygonObj = L.polygon([
                     [selectedBill.from.latitude, selectedBill.from.longtitude],
                     [selectedBill.to.latitude, selectedBill.to.longtitude],
                 ]).addTo(mapObj);
@@ -73,6 +72,7 @@ export const RouteOnMap = () => {
             }
 
         }
+// eslint-disable-next-line
     }, [selectedBill])
 
     return (
@@ -86,13 +86,17 @@ export const RouteOnMap = () => {
             <>
                 {
                     selectedBill === undefined &&
-                    <h1>Накладная не выбрана</h1>
+                    <>
+                        <h1>Накладная не выбрана</h1>
+                        <h4>Выберите в левой части накладную, для отображения карты</h4>
+                    </>
+
                 }
                 {
                     selectedBill !== undefined &&
                     <>
                         <h1>Маршрут накладной {selectedBill.name}</h1>
-                        <div style={{width: "600px", height: "600px"}} ref={mapRef}></div>
+                        <div style={{paddingTop: "60px", width: "600px", height: "600px"}} ref={mapRef}></div>
                     </>
                 }
             </>

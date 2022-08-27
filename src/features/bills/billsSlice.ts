@@ -1,10 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState, AppThunk} from '../../app/store';
+import {RootState} from '../../app/store';
 import {Bill} from "../../model/data/Bill";
-import {fetchCount} from "../counter/counterAPI";
-import {counterSlice, incrementAsync} from "../counter/counterSlice";
 import {billsListAPIFactory} from "./billsListAPI";
-import {BillsList} from "./BillsList";
 import {EntryPoint} from "../../model/data/EntryPoint";
 
 var cloneDeep = require('lodash.clonedeep');
@@ -25,7 +22,6 @@ const initialState: IBillsState = {
 export const billsSlice = createSlice({
     name: 'bills',
     initialState,
-    // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
          selectBill: (state,action: PayloadAction<Bill>) =>{
              state.selectedBill = action.payload//cloneDeep(action.payload);
@@ -88,13 +84,6 @@ export const billsSlice = createSlice({
             });
     },
 });
-
-// export const loadBillsListAsync = createAsyncThunk(
-//     'bills/loadingBills',
-//     async () => {
-//         return await billsListAPIFactory.api.loadBills(10,20);
-//     }
-// );
 
 export const loadBillsListAsync = createAsyncThunk(
     'bills/loadingBills',

@@ -61,7 +61,7 @@ export const CustomTable = <T, >(props: ICustomTableProps<T>) => {
                                 backgroundColor: props.isRowSelect(row) ? "limegreen" : undefined,
                                 cursor: "pointer",
                                 border: "1px solid gray"
-                            }} onClick={(e) => {
+                            }} onClick={() => {
                             props.onSelectRow(row)
                         }}>
                             {

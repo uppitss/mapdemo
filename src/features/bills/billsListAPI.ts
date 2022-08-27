@@ -58,7 +58,7 @@ class mockBillsListAPI implements IBillsListAPI {
 
             for (let i = 0; i < rows; i++) {
                 const points = getEntryPoints();
-                arr.push(new Bill("Mock " + i, points[0], points[1]));
+                arr.push(new Bill("Тестовая накладная № " + (i+1), points[0], points[1]));
             }
             resolve(arr)
         })

@@ -13,3 +13,6 @@ code {
 }
 
 #map { height: 180px; }
+.leaflet-control-attribution {
+  display: none !important;
+}

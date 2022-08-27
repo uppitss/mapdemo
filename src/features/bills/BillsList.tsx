@@ -21,6 +21,7 @@ export const BillsList = () => {
 
     useEffect(() => {
         dispatch(loadBillsListAsync())
+        // eslint-disable-next-line
     }, [])
 
 
@@ -75,8 +76,15 @@ export const BillsList = () => {
             <Spin size="large" tip={"Загрузка ..."}/>
         }
         {!isLoading &&
-            <>
-                <div style={{padding: "10px"}}>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%"
+            }}>
+                <h1>Выберите накладную для отображения карты</h1>
+                <div style={{width:"100%",paddingLeft:"20px",paddingRight:"20px"}}>
                     <CustomTable bindColl={bills}
                                  columns={getColumns()}
                                  onChangeRow={(row, key, value) => {
@@ -96,7 +104,7 @@ export const BillsList = () => {
                                      return row === selectedBill
                                  }}/>
                 </div>
-            </>
+            </div>
         }
     </>)
 }
