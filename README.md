@@ -1,6 +1,3 @@
-https://codesandbox.io/s/minwidthresizable-cp25n?file=/index.js:1719-1726
-https://react-leaflet.js.org/
-https://leafletjs.com/examples/quick-start/
 # Установка и запуск приложения
 
 ## Запуск дев сервера
