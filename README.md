@@ -1,49 +1,89 @@
 https://codesandbox.io/s/minwidthresizable-cp25n?file=/index.js:1719-1726
 https://react-leaflet.js.org/
 https://leafletjs.com/examples/quick-start/
-# Getting Started with Create React App
+# Установка и запуск приложения
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+## Запуск дев сервера
+> yarn install && yarn start
 
-## Available Scripts
+Сайт будет доступен по адресу http://localhost:3000
+## Продуктивная сборка
+> yarn install && yarn build
 
-In the project directory, you can run:
+В папке ./build будут собраны js файлы, пригодные для хоста на вэб сервере
 
-### `yarn start`
+## Docker образ
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+В проекте настроил сборку Docker Image с встроенным билдом этого приложения. Внутри хостинга сайт хостится на ngnix на 80 порту
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> docker build -t uppitss_mapdemo_image .
 
-### `yarn test`
+>docker run -dt -p 81:80 --name uppitss_mapdemo_container uppitss_mapdemo_image
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Протестировав в Docker я уверен, что все зависимости собраны правильно и проект работает.
 
-### `yarn build`
+# О приложении
+## Важно!
+> Не стреляйте в пианиста, он играет, как умеет! (из какого - то х.ф. про ковбоев)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Сразу подсвечиваю некоторые моменты. :
+ 
+- У меня было очень мало времени. Т.к. я мог тратить только часа по полтора в рабочую неделю, а выходные улетели все без остатка 
+на день рождения ребенка и прочее. Нехватка времени это мои личные проблемы, но пришлось сделать не все, что я планировал. Однако, считаю, что цель выполнена на 95%. Остальное украшалки и мелочи суть - можно увидеть.
+- Я, в принципе с самого начала сказал, что Redux владею +-, а Redux Saga не владею вообще. В целом в данном случае
+мне так и не хватило времени разобраться в Saga. Примерное понимание, что это есть, но лепить в код то, чем не владеешь
+хотя бы немного не в моих правилах. Поэтому саги тут нет! Однако, я бы посоветовал все - же посмотреть код. Т.к. применил несколько, на мой взгляд, нормальных решений и, в принципе,
+обошелся и без саги, как таковой, за ненадобностью. Вдумчиво овладеть всем функционалом редукса мне, наверное, потребуется недели три.
+- Я реализовал изменение левого и правого окна через какой - то сторонний компонент. Кстати, это помешало мне продемонстрировать
+один очень интересный прием по внедрению продвинутого лайоута. Прием просто не заработал. Внутри компонента что - то ломало мой механизм.
+Я понимаю, что цель - посмотреть, как владеют компонентом Ant Design Table
+- Я использовал компоненты дизайн системы ant.design в виде списка, но осознанно ушел от Table. По моему опыту (а он есть!) это
+очень неудобный и сырой и, главное багованный, компонент. У него просто чрезмерно перегружен API и любой мало - мальски
+умелый разработчик может сделать свою таблицу. Я почти уверен, что этот "несчастный" компонент у них ходил от разработчика к разработчику по наследству.
+Вообще при погружении в Ant design видно, что их делали разные люди/команды и они иногда даже нарушали основные принципы пропертис и прочее. Это плохо. 
+- Поэтому я сделал свой кастомный компонент таблицы. Не стал делать на флексах, а сделал именно таблицей. Этого в данном примере достаточно. Зачем усложнять?
+При разработке компонента я продемонстрировал, что умею Generics. Реализовал ровно тот минимум, что был в задании, но оставил перспективу на развитие компонента. Его можно сделать отличным при желании. Я, например, добавил генерацию футера, но уже не успел чем - то наполнить и т.д.
+- Карта! Задачу поставил, но не стал подгружать сервис построения полилинии. Дело в том, что я просто не знаю таких сервисов.
+Я провел одну линию от точки до точки. Но где одна, там и множество. Просто надо получить массив. Сделать обращение через fetch к некоему API, а тут у меня опыт огромный.
+И да, в компоненте карты пришлось делать "в лоб". Я обещал отдать сервис к сроку и на нормальные обертки карты у меня не хватило времени (слишком часто я на это ссылаюсь, но увы это так)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Ну что, коллеги, не расхотелось вам еще смотреть мой код? :) Если расхотелось - дело ваше, но я настаиваю на том, что он не так уж и плох.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Мокинг
 
-### `yarn eject`
+Я реализовал фабрику, которая генерирует моковые данные. Сознательно в интерфейсы не вкладывал возможность переключения режимов мокинг/бэкенд.
+В рамках демоверсии не было такой цели, и значит, интерфейсы не было смысла усложнять. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Тестирование
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Я стараюсь идти от технологии TDD в идеале, но текущий проект это в чистом виде RnD для меня. Т.к. и Redux и Карты - новые темы.
+В рамках RnD разработка через тесты не продуктивна (имхо).
+Я охватил только фабрику всего двумя тестами. Догадайтесь почему? Правильно! 
+Однако тесты есть - значит умею. 
+В разработке компонента не вставлял айдишники в ключевые места и, поэтому, отрендерить и сделать функциональные тесты в данной реализации трудно.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Проблема изменения точки в выбранной накладной
+Тут хочу подсветить. Я сравнивал выбранную накладную через проперти selectedBill в редюсере.
+Сравнивал в своем кастомном компоненте таблицы по совпадению ссылки в куче на объекты. Это красиво!
+Но! Наш объект содержит другой объект (точки доставки). В С# я бы их сделал структурами и горя бы не знал, но в js так не получится.
+Поэтому пришлось городить огород. В момент присвоения новой точки я внутри мэппинга ловил выделенную строку и принудительно обновлял ее (deepclone).
+Иначе редюсер не перерисовывал компонент. 
+Почти уверен, что есть способы элегантнее, но с наскоку я их не нашел.
+>./src/features/bills/billsSlice строка 50
+ 
+## Еще раз про таблицу Ant.Design
+Тут два способа решения:
+- Первый - внедрить CSS проперти в описание столбца и ограничить это так. Но это антипаттерн при той огромной API таблицы
+- Есть второй (работающий) способ https://codesandbox.io/s/minwidthresizable-cp25n?file=/index.js:1719 
+Он сработает, если я буду тягать полоску разделитель, но не сработает при смене размера окна. 
 
-## Learn More
+Вся таблица от анта - одно большое недоразумение. Тут реально проще сделать свое, ну и украсить очень просто
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## СSS
+Его тут почти нет! Ну как, почти. Флажок украины я убрал - значит умею в CSS.
+Но не внедрял его сознательно. Если уж умеешь хорошо кодить, то со стилями уж как - то да разберешься.
+less не хочу - от него больше проблем.
+Лучше наверное css in js, но ... ну вы поняли уже.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+P.S. Мне интересна обратная связь в любом случае. Спасибо за чтение.
